@@ -165,8 +165,10 @@ impl<'a, 'ctx> Emitter<'a, 'ctx> {
         });
         let callback = decl.qualifiers.contains(Q::CALLBACK);
         // Official REDmod accepts visibility on members, not free functions.
+        // As of REDmod CLI v1.2.2: visibility is not accepted on enums.
         if !patch
             && !callback
+            && !matches!(decl.item, Item::Enum(_))
             && (member || !matches!(decl.item, Item::Function(_)))
             && let Some(vis) = decl.visibility
         {
